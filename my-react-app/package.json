@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^5.17.0",
     "cra-template-typescript": "1.2.0",
     "mobx": "^6.12.1",
     "mobx-react": "^9.1.0",
