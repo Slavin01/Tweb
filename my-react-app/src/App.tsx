@@ -1,33 +1,12 @@
 import React, { useState } from 'react';
 import { Breadcrumb, Button, Layout, Menu, theme } from 'antd';
 import MotoComponent from './MotoComponent.tsx';
-import Moto from './models/Moto.ts';
 import { Footer } from 'antd/es/layout/layout';
 import MotoForm from './forms/MotoForm.tsx';
 import SportBike from './models/SportBike.ts';
+import motoStore from './stores/MotoStore.ts';
 
 const { Header, Content } = Layout;
-
-const initialData:SportBike[] = [
-    {
-     name: "Honda",
-     model: "CBR600RR",
-     description: "SportBike",
-     imageUrl:"https://news.webike.net/wp-content/uploads/2023/12/20231222_cbr600rr2231222-cbr600rr_001H_resulte.webp",
-     price: 1300,
-     suspension: "",
-      type: ""
-    },
-    {
-      name: "Kawasaki",
-      model: "Ninja",
-      description: "SportBike",
-      imageUrl:"https://content2.kawasaki.com/ContentStorage/KMC/Products/8797/6b80d839-96ba-482a-9348-c8de27ae9063.png?w=767",
-      price: 1300,
-      suspension: "",
-      type: ""
-     }
-  ];
 
   const items = new Array(3).fill(null).map((_, index) => ({
   key: index + 1,
@@ -38,27 +17,35 @@ const App: React.FC = () => {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
 
-  const [cardData, setCardData] = useState<SportBike[]>(initialData);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = React.useState(false);
+  const [selectedProduct, setSelectedProduct] = React.useState<SportBike | null>(null); 
+  
   const showModal = () => {
-      setIsModalVisible(true);
-    };
-    const handleCancel = () => {
-      
-      setIsModalVisible(false);
-    
-    };
-
-  const handleFormSubmit = ( MotoCard: SportBike) => {
-    console.log("Handle submit")
-    console.log(MotoCard)
-    setCardData([...cardData, MotoCard]);
-    console.log("final card data");
-    console.log(cardData);
-
+    setIsModalVisible(true);
+  };
+  
+  const handleCancel = () => {
     setIsModalVisible(false);
+    setSelectedProduct(null); 
   };
 
+  const handleFormSubmit = (cardProduct: SportBike) => {
+    if (selectedProduct) {
+      motoStore.removeMoto(selectedProduct); 
+    }
+    motoStore.addMoto(cardProduct); 
+    setIsModalVisible(false); 
+    setSelectedProduct(null); 
+  };
+
+  const handleEdit = (moto: SportBike) => {
+    setSelectedProduct(moto); 
+    showModal();
+  };
+
+  const handleDelete = (product: SportBike) => {
+    motoStore.removeMoto(product); 
+  };
 
   const emptyCard:SportBike = {
     name: "",
@@ -70,9 +57,7 @@ const App: React.FC = () => {
     type: ""
   
   }
-  
-  console.log(cardData);
-  return (
+    return (
     <Layout>
        <Header style={{ display: 'flex', alignItems: 'center' }}>
         <div className="demo-logo" />
@@ -102,9 +87,17 @@ const App: React.FC = () => {
             borderRadius: borderRadiusLG,
           }}
         >
-            <div style={{display:'flex',flexDirection:'row',gap:10 }}>{cardData.map((card , index) => (
-        <MotoComponent key={index} motoModel={card} />
-      ))}</div>
+            <div style={{display:'flex',flexDirection:'row',gap:10 }}>
+             
+        {motoStore.motos.map((moto, index) => (
+                  <MotoComponent 
+                    key={index} 
+                    motoModel={moto} 
+                    onEdit={() => handleEdit(moto)}
+                    onDelete={() => handleDelete(moto)} 
+                  />
+                ))}
+      </div>
     </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
