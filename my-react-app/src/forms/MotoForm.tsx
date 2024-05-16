@@ -8,7 +8,7 @@ import {
     Modal,
 
   } from 'antd';
-import MotoCard from '../models/Moto';
+import SportBikeCard from '../models/SportBike';
 
 const formItemLayout = {
     labelCol: {
@@ -25,9 +25,9 @@ const formItemLayout = {
 
 interface ModalFormProps {
   visible: boolean;
-  onSubmit: (data: MotoCard) => void;
+  onSubmit: (data: SportBikeCard) => void;
   onCancel:() => void;
-  card : MotoCard;
+  card : SportBikeCard;
 }
 
 const MotoForm: React.FC<ModalFormProps> = ({ visible, onCancel ,onSubmit, card }) => {
@@ -42,6 +42,8 @@ const MotoForm: React.FC<ModalFormProps> = ({ visible, onCancel ,onSubmit, card 
       imageUrl : values.imageUrl,
       price : values.price,
       description : values.description,
+      suspension: values.suspension,
+      type: values.type
     }
     console.log("OnFinishMethod values")
     console.log(values);
@@ -82,6 +84,13 @@ const MotoForm: React.FC<ModalFormProps> = ({ visible, onCancel ,onSubmit, card 
           <Form.Item label="Price" name="price" rules={[{ required: true, message: 'Please input product price!' }]}>            
            <InputNumber />
            </Form.Item>
+           <Form.Item label="Suspension" name="suspension" rules={[{ required: true, message: 'Please input a suspension!' }]}>
+            <Input.TextArea />
+          </Form.Item>
+
+          <Form.Item label="Type" name="type" rules={[{ required: true, message: 'Please input a type!' }]}>
+            <Input.TextArea />
+          </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
              <Button type="primary" htmlType="submit">
