@@ -1,14 +1,16 @@
 import React from 'react';
-import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
-import { Avatar, Card } from 'antd';
+import { EditOutlined, DeleteOutlined , SettingOutlined } from '@ant-design/icons';
+import {  Card } from 'antd';
 import Moto from './models/Moto';
 
 const { Meta } = Card;
 
 interface MotoCardProps{
   motoModel: Moto;
+  onEdit:() => void;
+  onDelete:()=>void;
 }
-const MotoComponent: React.FC<MotoCardProps> = ({motoModel}) => (
+const MotoComponent: React.FC<MotoCardProps> = ({motoModel,onEdit,onDelete}) => (
   <Card
     style={{ width: 300 }}
     cover={
@@ -19,8 +21,8 @@ const MotoComponent: React.FC<MotoCardProps> = ({motoModel}) => (
     }
     actions={[
       <SettingOutlined key="setting" />,
-      <EditOutlined key="edit" />,
-      <EllipsisOutlined key="ellipsis" />
+      <EditOutlined key="edit" onClick={(onEdit)} />,
+      <DeleteOutlined key="delete" onClick={onDelete} />,
     ]}
   >
     <Meta
