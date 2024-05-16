@@ -3,7 +3,7 @@ import { Breadcrumb, Button, Layout, Menu, theme } from 'antd';
 import MotoComponent from './MotoComponent.tsx';
 import Moto from './models/Moto.ts';
 import { Footer } from 'antd/es/layout/layout';
-import MotoForm from './froms/MotoForm.tsx';
+import MotoForm from './forms/MotoForm.tsx';
 
 const { Header, Content } = Layout;
 
