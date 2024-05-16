@@ -1,12 +1,12 @@
 import React from 'react';
 import { EditOutlined, EllipsisOutlined, SettingOutlined } from '@ant-design/icons';
 import { Avatar, Card } from 'antd';
-import Moto from './models/Moto';
+import SportBike from './models/SportBike';
 
 const { Meta } = Card;
 
 interface MotoCardProps{
-  motoModel: Moto;
+  motoModel: SportBike;
 }
 const MotoComponent: React.FC<MotoCardProps> = ({motoModel}) => (
   <Card
